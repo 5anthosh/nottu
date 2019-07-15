@@ -1,0 +1,11 @@
+package db
+
+const noteQuery = `
+CREATE TABLE Note
+(
+	NOTE_ID VARCHAR(20) PRIMARY KEY,
+	HEADER VARCHAR(100),
+	CONTENT VARCHAR(5000)
+)
+
+`
