@@ -3,8 +3,10 @@ package db
 import (
 	"database/sql"
 	"log"
+	"nottu/config"
 	"os"
 
+	_ "github.com/mattn/go-sqlite3"
 	"github.com/rs/xid"
 )
 
@@ -18,7 +20,7 @@ const (
 	TestMode = "Test"
 )
 
-func sqliteDBConnection(devdb string, testdb string, mode string) *sql.DB {
+func SqliteDBConnection(devdb string, testdb string, mode string) *sql.DB {
 	var DatabaseName string
 	if mode == TestMode {
 		DatabaseName = testdb
@@ -30,7 +32,7 @@ func sqliteDBConnection(devdb string, testdb string, mode string) *sql.DB {
 	}
 	database, err := sql.Open(sqliteEngine, DatabaseName)
 	if err != nil {
-		log.Fatal("error in opening database connection")
+		log.Fatal("error in opening database connection", err)
 	}
 	return database
 }
@@ -49,12 +51,22 @@ func sqliteWithOutDBConnection(devdb string, testdb string, mode string) *sql.DB
 		return nil
 	}
 	f.Close()
-	return sqliteDBConnection(devdb, testdb, mode)
+	return SqliteDBConnection(devdb, testdb, mode)
 }
 
 //ReinitDB reinits the database , it is dangerous function because it wipes out every data
 func ReinitDB() {
-
+	db := sqliteWithOutDBConnection(config.DatabaseName, "test.sqite3", DevMode)
+	tx, err := db.Begin()
+	if err == nil {
+		_, err = tx.Exec(noteQuery)
+		if err == nil {
+			tx.Commit()
+			return
+		}
+	}
+	tx.Rollback()
+	log.Println("Error in creating database")
 }
 
 //GenerateUniqueID generates uuid

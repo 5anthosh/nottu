@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"nottu/config"
+	"nottu/db"
 	"os/exec"
 	"runtime"
 	"sync"
@@ -54,7 +55,7 @@ func (app *Application) HandleStatic(path string, dir string) {
 func New() *Application {
 	app := &Application{}
 	// app.Config = config.GetConfig(config.ConfigPath)
-	// app.DB = db.Connection(app.Config, db.DevMode)
+	app.DB = db.SqliteDBConnection(config.DatabaseName, ".testdb", db.DevMode)
 	app.contextPool = &sync.Pool{
 		New: newContextPool(app),
 	}

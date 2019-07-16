@@ -1,1 +1,4 @@
 vendor/
+.nottu.sqlite3
+nottu
+nottu.sqlite3
