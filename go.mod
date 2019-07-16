@@ -1,4 +1,4 @@
-module yrnote
+module nottu
 
 go 1.12
 

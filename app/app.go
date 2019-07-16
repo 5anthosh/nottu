@@ -4,10 +4,10 @@ import (
 	"database/sql"
 	"fmt"
 	"net/http"
+	"nottu/config"
 	"os/exec"
 	"runtime"
 	"sync"
-	"yrnote/config"
 
 	"github.com/gorilla/handlers"
 
