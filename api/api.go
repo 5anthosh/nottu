@@ -29,7 +29,7 @@ type Response struct {
 	JSONID      string       `json:"id,omitempty"`
 	JSONMessage string       `json:"message,omitempty"`
 	JSONNote    *note.Note   `json:"note,omitempty"`
-	JSONNotes   []*note.Note `json:"json_notes,omitempty"`
+	JSONNotes   []*note.Note `json:"notes,omitempty"`
 }
 
 //ID set

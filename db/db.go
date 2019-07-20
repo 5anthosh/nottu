@@ -21,6 +21,7 @@ const (
 )
 
 func SqliteDBConnection(devdb string, testdb string, mode string) *sql.DB {
+
 	var DatabaseName string
 	if mode == TestMode {
 		DatabaseName = testdb
@@ -28,7 +29,7 @@ func SqliteDBConnection(devdb string, testdb string, mode string) *sql.DB {
 		DatabaseName = devdb
 	}
 	if _, err := os.Stat(DatabaseName); os.IsNotExist(err) {
-		log.Fatal(DatabaseName + " does not exist : reinit database to create")
+		return sqliteWithOutDBConnection(devdb, testdb, mode)
 	}
 	database, err := sql.Open(sqliteEngine, DatabaseName)
 	if err != nil {
@@ -44,7 +45,6 @@ func sqliteWithOutDBConnection(devdb string, testdb string, mode string) *sql.DB
 	} else {
 		DatabaseName = devdb
 	}
-	os.Remove(DatabaseName)
 	f, err := os.Create(DatabaseName)
 	if err != nil {
 		log.Fatal(err)
@@ -56,6 +56,7 @@ func sqliteWithOutDBConnection(devdb string, testdb string, mode string) *sql.DB
 
 //ReinitDB reinits the database , it is dangerous function because it wipes out every data
 func ReinitDB() {
+	os.Remove(config.DatabaseName)
 	db := sqliteWithOutDBConnection(config.DatabaseName, "test.sqite3", DevMode)
 	tx, err := db.Begin()
 	if err == nil {

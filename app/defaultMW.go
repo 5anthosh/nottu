@@ -18,5 +18,5 @@ func LoggerMW(c *Context) {
 	log.BodySize = c.Size
 	log.Path = path
 	log.Errors = c.Error
-	go log.Print()
+	log.Print()
 }

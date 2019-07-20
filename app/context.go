@@ -12,6 +12,8 @@ var (
 	newLine = []byte{'\n'}
 )
 
+var jsonContentType = []string{"application/json; charset=utf-8"}
+
 //Context provides context for whole request/response cycle
 type Context struct {
 	*handlerContext
@@ -50,19 +52,41 @@ func newContextPool(app *Application) func() interface{} {
 	}
 }
 
+func bodyAllowedForStatus(status int) bool {
+	switch {
+	case status >= 100 && status <= 199:
+		return false
+	case status == http.StatusNoContent:
+		return false
+	case status == http.StatusNotModified:
+		return false
+	}
+	return true
+}
+
 //GetRequestHeader returns request header
 func (c *Context) GetRequestHeader(key string) string {
 	return c.Request.Header.Get(key)
 }
 
-//SetStatus set http status code
-func (c *Context) HTTPStatusCode(status int) {
+//HTTPStatus set http status code
+func (c *Context) HTTPStatus(status int) {
 	c.StatusCode = status
 	c.Response.WriteHeader(status)
 }
 
-func (c *Context) JSON(response interface{}) {
-	c.Response.Header().Add("Content-Type", "application/json")
+func (c *Context) writeHeader(key string, value []string) {
+	header := c.Response.Header()
+	if val := header[key]; len(val) == 0 {
+		header[key] = value
+	}
+}
+
+func (c *Context) writeContentType(contentType []string) {
+	c.writeHeader("Content-Type", contentType)
+}
+func (c *Context) jsonWriter(response interface{}) {
+	c.writeContentType(jsonContentType)
 	jsonContentByte, err := json.Marshal(response)
 	if err != nil {
 		c.AppendError(err)
@@ -76,6 +100,14 @@ func (c *Context) JSON(response interface{}) {
 	c.setSize(size)
 	if err != nil {
 		c.AppendError(err)
+	}
+}
+
+//JSON writes json response
+func (c *Context) JSON(code int, response interface{}) {
+	c.HTTPStatus(code)
+	if bodyAllowedForStatus(code) {
+		c.jsonWriter(response)
 	}
 }
 
