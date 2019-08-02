@@ -8,4 +8,8 @@
  ```sh
 $ go get -u github.com/5anthosh/nottu
 ```
- ! nottu-ui is still in developement
+ To run nottu
+ ```
+ $ nottu
+ ```
+ > nottu ui is still in developement
