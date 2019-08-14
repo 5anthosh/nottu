@@ -1,6 +1,7 @@
 # Nottu
 
 Simple notepad in our browser
+> nottu ui is still in developement
 
 ## Introduction
 
@@ -194,4 +195,3 @@ Used to get the a note by its ID
 
 **Code** : `204 Content`
 
-> nottu ui is still in developement
