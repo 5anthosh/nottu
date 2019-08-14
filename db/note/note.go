@@ -5,6 +5,8 @@ import (
 	"nottu/db"
 	"nottu/db/status"
 	"time"
+
+	"github.com/5anthosh/mint"
 )
 
 //Create creates new note with title and content
@@ -25,7 +27,7 @@ func Create(database *sql.DB, title *string, content *string) (string, string, i
 
 	}
 	tx.Rollback()
-	return emptyString, creationErr, status.ServerError, err
+	return emptyString, creationErr, status.ServerError, mint.Traceable(err)
 
 }
 
@@ -34,7 +36,7 @@ func Get(database *sql.DB) ([]*Note, string, int, error) {
 	query := "SELECT * FROM Note"
 	rows, err := database.Query(query)
 	if err != nil {
-		return nil, retrieveErr, status.ServerError, err
+		return nil, retrieveErr, status.ServerError, mint.Traceable(err)
 	}
 	defer rows.Close()
 	var notes []*Note
@@ -42,7 +44,7 @@ func Get(database *sql.DB) ([]*Note, string, int, error) {
 		note := new(Note)
 		err := rows.Scan(&note.ID, &note.Title, &note.Content, &note.Created)
 		if err != nil {
-			return nil, retrieveErr, status.ServerError, err
+			return nil, retrieveErr, status.ServerError, mint.Traceable(err)
 		}
 		notes = append(notes, note)
 	}
@@ -58,7 +60,7 @@ func ByID(database *sql.DB, id string) (*Note, string, int, error) {
 		if err == sql.ErrNoRows {
 			return nil, notFound, status.NotFound, nil
 		} else {
-			return nil, retrieveErrSingular, status.ServerError, err
+			return nil, retrieveErrSingular, status.ServerError, mint.Traceable(err)
 		}
 	}
 	return note, success, status.OK, err
@@ -73,7 +75,7 @@ func Delete(database *sql.DB, id string) (string, int, error) {
 	query := "DELETE FROM Note WHERE NOTE_ID = ?"
 	_, err = database.Exec(query, id)
 	if err != nil {
-		return deletionErr, status.ServerError, err
+		return deletionErr, status.ServerError, mint.Traceable(err)
 	}
 	return success, status.DeletedSuccess, err
 }
@@ -89,19 +91,19 @@ func Update(database *sql.DB, id string, title *string, content *string) (string
 		query = "UPDATE Note SET TITLE = ?, CONTENT = ? WHERE NOTE_ID = ?"
 		_, err = database.Exec(query, *title, *content, id)
 		if err != nil {
-			return updationErr, status.ServerError, err
+			return updationErr, status.ServerError, mint.Traceable(err)
 		}
 	} else if title != nil {
 		query = "UPDATE Note SET TITLE = ? WHERE NOTE_ID = ?"
 		_, err = database.Exec(query, *title, id)
 		if err != nil {
-			return updationErr, status.ServerError, err
+			return updationErr, status.ServerError, mint.Traceable(err)
 		}
 	} else if content != nil {
 		query = "UPDATE Note SET CONTENT=? WHERE NOTE_ID = ?"
 		_, err = database.Exec(query, *content, id)
 		if err != nil {
-			return updationErr, status.ServerError, err
+			return updationErr, status.ServerError, mint.Traceable(err)
 		}
 	}
 	return updationSuccess, status.OK, err

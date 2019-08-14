@@ -3,12 +3,15 @@ package note
 import (
 	"net/http"
 	"nottu/api"
-	"nottu/app"
 	"nottu/db/note"
 	"nottu/db/status"
+
+	"github.com/5anthosh/mint"
 )
 
-func create(c *app.Context, code *int, response *api.ResponseBuilder) {
+const NoteIDURLVar = "noteID"
+
+func create(c *mint.Context, code *int, response *api.ResponseBuilder) {
 	requestBody, err := parseCreateRequestBody(c.Request.Body)
 	if err != nil {
 		response.Error().Message(err.Error())
@@ -24,7 +27,7 @@ func create(c *app.Context, code *int, response *api.ResponseBuilder) {
 		}
 	}
 }
-func get(c *app.Context, code *int, response *api.ResponseBuilder) {
+func get(c *mint.Context, code *int, response *api.ResponseBuilder) {
 	var result string
 	var notes []*note.Note
 	var err error
@@ -37,7 +40,7 @@ func get(c *app.Context, code *int, response *api.ResponseBuilder) {
 	}
 }
 
-func byID(c *app.Context, id string, code *int, response *api.ResponseBuilder) {
+func byID(c *mint.Context, id string, code *int, response *api.ResponseBuilder) {
 	var result string
 	var noteObj *note.Note
 	var err error
@@ -50,7 +53,7 @@ func byID(c *app.Context, id string, code *int, response *api.ResponseBuilder) {
 	}
 }
 
-func delete(c *app.Context, id string, code *int, response *api.ResponseBuilder) {
+func delete(c *mint.Context, id string, code *int, response *api.ResponseBuilder) {
 	var err error
 	var result string
 	result, *code, err = note.Delete(c.DB, id)
@@ -60,7 +63,7 @@ func delete(c *app.Context, id string, code *int, response *api.ResponseBuilder)
 	}
 }
 
-func update(c *app.Context, id string, code *int, response *api.ResponseBuilder) {
+func update(c *mint.Context, id string, code *int, response *api.ResponseBuilder) {
 	requestBody, err := parseUpdateRequestBody(c.Request.Body)
 	if err != nil {
 		response.Error().Message(err.Error())
@@ -79,7 +82,7 @@ func update(c *app.Context, id string, code *int, response *api.ResponseBuilder)
 }
 
 //EndPoint #
-func EndPoint(c *app.Context) {
+func EndPoint(c *mint.Context) {
 	code := new(int)
 	response := new(api.ResponseBuilder)
 	switch c.Request.Method {
@@ -88,14 +91,14 @@ func EndPoint(c *app.Context) {
 	case http.MethodPost:
 		create(c, code, response)
 	default:
-		c.HTTPStatus(status.NotFound)
+		c.Status(status.NotFound)
 		return
 	}
 	c.JSON(*code, response)
 }
 
 //ByIDEndPoint #
-func ByIDEndPoint(c *app.Context) {
+func ByIDEndPoint(c *mint.Context) {
 	code := new(int)
 	response := new(api.ResponseBuilder)
 	noteID := c.URLParams["noteID"]
@@ -107,7 +110,7 @@ func ByIDEndPoint(c *app.Context) {
 	case http.MethodDelete:
 		delete(c, noteID, code, response)
 	default:
-		c.HTTPStatus(status.NotFound)
+		c.Status(status.NotFound)
 		return
 	}
 	c.JSON(*code, response)
