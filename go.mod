@@ -1,4 +1,4 @@
-module nottu
+module github.com/5anthosh/nottu
 
 go 1.12
 
