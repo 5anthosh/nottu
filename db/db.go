@@ -25,7 +25,10 @@ type Database struct {
 
 func (db Database) Connection() *sql.DB {
 	if _, err := os.Stat(db.DevDatabaseFilePath); os.IsNotExist(err) {
-		return db.withOutDBConnection()
+		log.Println("Datebase file not found : Creating new database file....")
+		dbConn := db.withOutDBConnection()
+		reinitDB(dbConn)
+		return dbConn
 	}
 	database, err := sql.Open(sqliteEngine, db.DevDatabaseFilePath)
 	if err != nil {
@@ -44,21 +47,18 @@ func (db Database) withOutDBConnection() *sql.DB {
 	return db.Connection()
 }
 
-// //ReinitDB reinits the database , it is dangerous function because it wipes out every data
-// func ReinitDB() {
-// 	os.Remove(config.DatabaseName)
-// 	db := sqliteWithOutDBConnection(config.DatabaseName, "test.sqite3", DevMode)
-// 	tx, err := db.Begin()
-// 	if err == nil {
-// 		_, err = tx.Exec(noteQuery)
-// 		if err == nil {
-// 			tx.Commit()
-// 			return
-// 		}
-// 	}
-// 	tx.Rollback()
-// 	log.Println("Error in creating database")
-// }
+func reinitDB(dbConn *sql.DB) {
+	tx, err := dbConn.Begin()
+	if err == nil {
+		_, err = tx.Exec(noteQuery)
+		if err == nil {
+			tx.Commit()
+			return
+		}
+	}
+	tx.Rollback()
+	log.Fatalln("Error in creating table Note", err)
+}
 
 //GenerateUniqueID generates uuid
 func GenerateUniqueID() string {
