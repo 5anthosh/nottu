@@ -20,6 +20,7 @@ const (
 )
 
 type Database struct {
+	FileParentPath      string
 	DevDatabaseFilePath string
 }
 
@@ -38,6 +39,10 @@ func (db Database) Connection() *sql.DB {
 }
 
 func (db Database) withOutDBConnection() *sql.DB {
+	err := os.MkdirAll(db.FileParentPath, os.ModePerm)
+	if err != nil {
+		log.Fatalln("Could not create folder ", db.FileParentPath, " ", err)
+	}
 	f, err := os.Create(db.DevDatabaseFilePath)
 	if err != nil {
 		log.Fatal(err)

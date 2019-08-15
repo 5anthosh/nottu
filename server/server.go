@@ -12,9 +12,9 @@ import (
 )
 
 const defaultPort = "1313"
-
-const defaultDBFileLocation = "~/.config/nottu/"
-const databaseName = defaultDBFileLocation + ".nottu.sqlite3"
+const homeRoot = "~/"
+const defaultDBFileLocation = homeRoot + ".config/nottu/"
+const databaseName = ".nottu.sqlite3"
 
 //Run starts server
 func Run() {
@@ -34,7 +34,8 @@ func Run() {
 	)
 	nottu.RegisterDB(
 		db.Database{
-			DevDatabaseFilePath: databaseName,
+			FileParentPath:      defaultDBFileLocation,
+			DevDatabaseFilePath: defaultDBFileLocation + databaseName,
 		},
 	)
 
