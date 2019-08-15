@@ -16,7 +16,7 @@ import (
 
 const defaultPort = "1313"
 const defaultDBFileLocation = ".config/nottu/"
-const databaseName = ".nottu.sqlite3"
+const databaseName = "/.nottu.sqlite3"
 
 //Run starts server
 func Run() {
