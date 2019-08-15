@@ -1,7 +1,7 @@
 package main
 
 import (
-	"nottu/server"
+	"github.com/5anthosh/nottu/server"
 )
 
 func main() {
