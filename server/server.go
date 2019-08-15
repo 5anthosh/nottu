@@ -53,7 +53,6 @@ func Run() {
 
 	//	go open(localAddress + "/#/pltm/container")
 	protocal := "http"
-	var err error
 	localAddress := protocal + "://localhost" + serverAdd
 	fmt.Println("🌠 Ready on " + localAddress)
 	err = http.ListenAndServe(serverAdd, handlers.RecoveryHandler()(router))
