@@ -26,7 +26,7 @@ type Database struct {
 
 func (db Database) Connection() *sql.DB {
 	if _, err := os.Stat(db.DevDatabaseFilePath); os.IsNotExist(err) {
-		log.Println("Datebase file not found : Creating new database file....")
+		log.Println("Datebase file not found ", db.DevDatabaseFilePath, " : Creating new database file....")
 		dbConn := db.withOutDBConnection()
 		reinitDB(dbConn)
 		return dbConn
