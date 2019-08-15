@@ -5,13 +5,18 @@ import (
 	"net/http"
 
 	"github.com/5anthosh/nottu/api/note"
-	"github.com/5anthosh/nottu/config"
 	"github.com/5anthosh/nottu/db"
 
 	"github.com/5anthosh/mint"
 	"github.com/gorilla/handlers"
 )
 
+const defaultPort = "1313"
+
+const defaultDBFileLocation = "~/.config/nottu/"
+const databaseName = defaultDBFileLocation + ".nottu.sqlite3"
+
+//Run starts server
 func Run() {
 	nottu := mint.New()
 	nottu.Group("/notes").
@@ -29,11 +34,12 @@ func Run() {
 	)
 	nottu.RegisterDB(
 		db.Database{
-			DevDatabaseFilePath: config.DatabaseName,
+			DevDatabaseFilePath: databaseName,
 		},
 	)
+
 	router := nottu.Build()
-	port := config.DefaultPort
+	port := defaultPort
 	serverAdd := ":" + port
 	fmt.Println("🚀  Starting server....")
 
