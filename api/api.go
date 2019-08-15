@@ -2,7 +2,8 @@ package api
 
 import (
 	"errors"
-	"nottu/db/note"
+
+	"github.com/5anthosh/nottu/db/note"
 )
 
 type ResponseBuilder struct {

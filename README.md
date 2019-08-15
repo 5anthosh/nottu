@@ -1,6 +1,7 @@
 # Nottu
 
 Simple notepad in our browser
+
 > nottu ui is still in developement
 
 ## Introduction
@@ -17,7 +18,9 @@ To run nottu
 $ nottu
 ```
 
-# Create
+---
+
+## Create
 
 Used to create a new note
 
@@ -27,7 +30,7 @@ Used to create a new note
 
 **Auth required** : NO
 
-**Data constraints**
+### Data constraints
 
 ```json
 {
@@ -36,7 +39,7 @@ Used to create a new note
 }
 ```
 
-**Data example**
+### Data example
 
 ```json
 {
@@ -45,11 +48,11 @@ Used to create a new note
 }
 ```
 
-## Success Response
+### Success Response
 
 **Code** : `201 Created`
 
-**Content example**
+### Content example
 
 ```json
 {
@@ -60,7 +63,9 @@ Used to create a new note
 }
 ```
 
-# Get
+---
+
+## Get
 
 Used to get the all notes
 
@@ -72,11 +77,11 @@ Used to get the all notes
 
 **Data constraints required** : NO
 
-## Success Response
+### Success Response
 
 **Code** : `200 OK`
 
-**Content example**
+### Content example
 
 ```json
 {
@@ -93,7 +98,9 @@ Used to get the all notes
 }
 ```
 
-# Get by ID
+---
+
+## Get by ID
 
 Used to get the a note by its ID
 
@@ -105,11 +112,11 @@ Used to get the a note by its ID
 
 **Data constraints required** : NO
 
-## Success Response
+### Success Response
 
 **Code** : `200 OK`
 
-**Content example**
+### Content example
 
 ```json
 {
@@ -126,7 +133,9 @@ Used to get the a note by its ID
 }
 ```
 
-# Update
+---
+
+## Update
 
 Used to update the note
 
@@ -136,7 +145,7 @@ Used to update the note
 
 **Auth required** : NO
 
-**Data constraints**
+### Data constraints
 
 _Update both title and content_
 
@@ -155,8 +164,9 @@ _Update only title_
 }
 ```
 
-you can also update content
-**Data example**
+you can also update content in same way
+
+### Data example
 
 ```json
 {
@@ -165,11 +175,11 @@ you can also update content
 }
 ```
 
-## Success Response
+### Success Response
 
 **Code** : `201 Created`
 
-**Content example**
+### Content example
 
 ```json
 {
@@ -179,7 +189,9 @@ you can also update content
 }
 ```
 
-# DELETE
+---
+
+## DELETE
 
 Used to get the a note by its ID
 
@@ -191,7 +203,6 @@ Used to get the a note by its ID
 
 **Data constraints required** : NO
 
-## Success Response
+### Success Response
 
 **Code** : `204 Content`
-

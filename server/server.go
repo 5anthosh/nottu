@@ -3,9 +3,10 @@ package server
 import (
 	"fmt"
 	"net/http"
-	"nottu/api/note"
-	"nottu/config"
-	"nottu/db"
+
+	"github.com/5anthosh/nottu/api/note"
+	"github.com/5anthosh/nottu/config"
+	"github.com/5anthosh/nottu/db"
 
 	"github.com/5anthosh/mint"
 	"github.com/gorilla/handlers"

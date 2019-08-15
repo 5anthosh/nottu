@@ -3,7 +3,8 @@ package note
 import (
 	"encoding/json"
 	"io"
-	"nottu/api"
+
+	"github.com/5anthosh/nottu/api"
 )
 
 type noteCreateRequestBody struct {

@@ -1,6 +1,6 @@
 package note
 
-import "store/security/xss"
+import "github.com/5anthosh/nottu/security"
 
 const (
 	nameMaxLen    = 100
@@ -8,5 +8,5 @@ const (
 )
 
 var (
-	nameXSSPolicy = xss.StrictPolicy
+	nameXSSPolicy = security.StrictXSSPolicy
 )

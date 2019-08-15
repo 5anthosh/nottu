@@ -2,9 +2,10 @@ package note
 
 import (
 	"net/http"
-	"nottu/api"
-	"nottu/db/note"
-	"nottu/db/status"
+
+	"github.com/5anthosh/nottu/api"
+	"github.com/5anthosh/nottu/db/note"
+	"github.com/5anthosh/nottu/db/status"
 
 	"github.com/5anthosh/mint"
 )

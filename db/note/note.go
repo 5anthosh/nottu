@@ -2,9 +2,10 @@ package note
 
 import (
 	"database/sql"
-	"nottu/db"
-	"nottu/db/status"
 	"time"
+
+	"github.com/5anthosh/nottu/db"
+	"github.com/5anthosh/nottu/db/status"
 
 	"github.com/5anthosh/mint"
 )
