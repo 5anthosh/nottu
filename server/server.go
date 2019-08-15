@@ -2,7 +2,10 @@ package server
 
 import (
 	"fmt"
+	"log"
 	"net/http"
+	"os/user"
+	"path/filepath"
 
 	"github.com/5anthosh/nottu/api/note"
 	"github.com/5anthosh/nottu/db"
@@ -12,8 +15,7 @@ import (
 )
 
 const defaultPort = "1313"
-const homeRoot = "~/"
-const defaultDBFileLocation = homeRoot + ".config/nottu/"
+const defaultDBFileLocation = ".config/nottu/"
 const databaseName = ".nottu.sqlite3"
 
 //Run starts server
@@ -32,10 +34,15 @@ func Run() {
 			Handle(note.ByIDEndPoint).
 			Methods(http.MethodGet, http.MethodDelete, http.MethodPut).Compressed(true),
 	)
+	usr, err := user.Current()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fileLocation := filepath.Join(usr.HomeDir, defaultDBFileLocation)
 	nottu.RegisterDB(
 		db.Database{
-			FileParentPath:      defaultDBFileLocation,
-			DevDatabaseFilePath: defaultDBFileLocation + databaseName,
+			FileParentPath:      fileLocation,
+			DevDatabaseFilePath: fileLocation + databaseName,
 		},
 	)
 
