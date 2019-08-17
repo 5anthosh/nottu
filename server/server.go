@@ -21,19 +21,7 @@ const databaseName = "/.nottu.sqlite3"
 //Run starts server
 func Run() {
 	nottu := mint.New()
-	nottu.Group("/notes").
-		Handler(
-			new(mint.HandlersContext).
-				Path("").
-				Handle(note.EndPoint).
-				Methods(http.MethodGet, http.MethodPost).
-				Compressed(true),
-		).Handler(
-		new(mint.HandlersContext).
-			Path("/{"+note.NoteIDURLVar+"}").
-			Handle(note.ByIDEndPoint).
-			Methods(http.MethodGet, http.MethodDelete, http.MethodPut).Compressed(true),
-	)
+	nottu.AddGroup(note.New())
 	usr, err := user.Current()
 	if err != nil {
 		log.Fatal(err)

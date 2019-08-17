@@ -1,7 +1,5 @@
 vendor/
-.nottu.sqlite3
 nottu
-nottu.sqlite3
 .vscode/
 node_modules/
 package-lock.json
