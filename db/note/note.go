@@ -11,7 +11,7 @@ import (
 )
 
 //Create creates new note with title and content
-func Create(database *sql.DB, title *string, content *string) (string, string, int, error) {
+func Create(database *sql.DB, title string, content string) (string, string, int, error) {
 	if result := proccessInputs(title, content); result != ok {
 		return emptyString, result, status.BadRequest, nil
 	}
@@ -20,7 +20,7 @@ func Create(database *sql.DB, title *string, content *string) (string, string, i
 	query := "INSERT INTO NOTE(NOTE_ID, TITLE, CONTENT, CREATED) VALUES(?, ?, ?, ?)"
 	tx, err := database.Begin()
 	if err == nil {
-		_, err = tx.Exec(query, id, *title, *content, created)
+		_, err = tx.Exec(query, id, title, content, created)
 		if err == nil {
 			tx.Commit()
 			return id, creationSuccess, status.CreatedSuccess, err
@@ -33,36 +33,36 @@ func Create(database *sql.DB, title *string, content *string) (string, string, i
 }
 
 //Get gets list of notes
-func Get(database *sql.DB) ([]*Note, string, int, error) {
+func Get(database *sql.DB) ([]Note, string, int, error) {
 	query := "SELECT * FROM Note"
 	rows, err := database.Query(query)
 	if err != nil {
 		return nil, retrieveErr, status.ServerError, mint.Traceable(err)
 	}
 	defer rows.Close()
-	var notes []*Note
+	var notes = make([]Note, 0, 16)
 	for rows.Next() {
 		note := new(Note)
 		err := rows.Scan(&note.ID, &note.Title, &note.Content, &note.Created)
 		if err != nil {
 			return nil, retrieveErr, status.ServerError, mint.Traceable(err)
 		}
-		notes = append(notes, note)
+		notes = append(notes, *note)
 	}
 	return notes, success, status.OK, err
 }
 
 //ByID gets a note by its id
-func ByID(database *sql.DB, id string) (*Note, string, int, error) {
+func ByID(database *sql.DB, id string) (Note, string, int, error) {
+	var note Note
 	query := "SELECT * FROM Note WHERE NOTE_ID = ?"
-	note := new(Note)
+	note = Note{}
 	err := database.QueryRow(query, id).Scan(&note.ID, &note.Title, &note.Content, &note.Created)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, notFound, status.NotFound, nil
-		} else {
-			return nil, retrieveErrSingular, status.ServerError, mint.Traceable(err)
+			return note, notFound, status.NotFound, nil
 		}
+		return note, retrieveErrSingular, status.ServerError, mint.Traceable(err)
 	}
 	return note, success, status.OK, err
 }

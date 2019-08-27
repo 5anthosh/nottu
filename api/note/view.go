@@ -11,7 +11,6 @@ func New() *mint.HandlersGroup {
 	return mint.NewGroup("/notes").
 		Handler(
 			new(mint.HandlersContext).
-				Path("").
 				Handle(EndPoint).
 				Methods(http.MethodGet, http.MethodPost).
 				Compressed(true),

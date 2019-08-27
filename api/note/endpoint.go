@@ -19,7 +19,7 @@ func create(c *mint.Context, code *int, response *api.ResponseBuilder) {
 		*code = status.BadRequest
 	} else {
 		var id, result string
-		id, result, *code, err = note.Create(c.DB, &requestBody.Title, &requestBody.Content)
+		id, result, *code, err = note.Create(c.DB, requestBody.Title, requestBody.Content)
 		c.AppendError(err)
 		if *code == status.CreatedSuccess {
 			response.Data().ID(id).Message(result)
@@ -30,7 +30,7 @@ func create(c *mint.Context, code *int, response *api.ResponseBuilder) {
 }
 func get(c *mint.Context, code *int, response *api.ResponseBuilder) {
 	var result string
-	var notes []*note.Note
+	var notes []note.Note
 	var err error
 	notes, result, *code, err = note.Get(c.DB)
 	c.AppendError(err)
@@ -43,7 +43,7 @@ func get(c *mint.Context, code *int, response *api.ResponseBuilder) {
 
 func byID(c *mint.Context, id string, code *int, response *api.ResponseBuilder) {
 	var result string
-	var noteObj *note.Note
+	var noteObj note.Note
 	var err error
 	noteObj, result, *code, err = note.ByID(c.DB, id)
 	c.AppendError(err)

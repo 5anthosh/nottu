@@ -27,10 +27,10 @@ func (r *ResponseBuilder) Error() *ErrorMessages {
 
 //Response containes requested info if request is successfull
 type Response struct {
-	JSONID      string       `json:"id,omitempty"`
-	JSONMessage string       `json:"message,omitempty"`
-	JSONNote    *note.Note   `json:"note,omitempty"`
-	JSONNotes   []*note.Note `json:"notes,omitempty"`
+	JSONID      string      `json:"id,omitempty"`
+	JSONMessage string      `json:"message,omitempty"`
+	JSONNote    note.Note   `json:"note,omitempty"`
+	JSONNotes   []note.Note `json:"notes,omitempty"`
 }
 
 //ID set
@@ -45,11 +45,11 @@ func (d *Response) Message(message string) *Response {
 	return d
 }
 
-func (d *Response) Note(note *note.Note) *Response {
+func (d *Response) Note(note note.Note) *Response {
 	d.JSONNote = note
 	return d
 }
-func (d *Response) Notes(notes []*note.Note) *Response {
+func (d *Response) Notes(notes []note.Note) *Response {
 	d.JSONNotes = notes
 	return d
 }
