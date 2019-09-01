@@ -16,7 +16,7 @@ func New() *mint.HandlersGroup {
 				Compressed(true),
 		).Handler(
 		new(mint.HandlersContext).
-			Path("/"+mint.URLVar(NoteIDURLVar)).
+			Path("/"+mint.URLVar(noteIDURLVar)).
 			Handle(ByIDEndPoint).
 			Methods(http.MethodGet, http.MethodDelete, http.MethodPut).Compressed(true),
 	)

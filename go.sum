@@ -1,8 +1,9 @@
-github.com/5anthosh/mint v0.0.0-20190815173127-035ec0960f22 h1:PVRp4l0t/KBhO8BSzDnuIYqQzH8ma9uIl+rd3QnxAKo=
-github.com/5anthosh/mint v0.0.0-20190815173127-035ec0960f22/go.mod h1:Sfa/kRf6z971xW86Uuzl9Qmo55xbzxUGfbCsu25k/2A=
+github.com/5anthosh/mint v0.0.0-20190830171709-76db5fa2217f h1:kCa/+iQZMIhzJYKt3biKAFGUBK7uvRyZ2QgVdTgwSJ0=
+github.com/5anthosh/mint v0.0.0-20190830171709-76db5fa2217f/go.mod h1:ZC2nKTU8ovfyeErlYf3Oc2P1QX2pKkddprIeDgo/5hg=
+github.com/5anthosh/oops v1.0.0 h1:CH7rwi7rIvV10I0dTOX6P8ZaWgwR63Vb1TMpYwFbYmw=
+github.com/5anthosh/oops v1.0.0/go.mod h1:u32jgP3xFDjK+CHUgo/0DCMTAReGDlZnSSHFSJkME2g=
+github.com/gorilla/handlers v1.4.1 h1:BHvcRGJe/TrL+OqFxoKQGddTgeibiOjaBssV5a/N9sw=
 github.com/gorilla/handlers v1.4.1/go.mod h1:Qkdc/uu4tH4g6mTK6auzZ766c4CA0Ng8+o/OAirnOIQ=
-github.com/gorilla/handlers v1.4.2 h1:0QniY0USkHQ1RGCLfKxeNHK9bkDHGRYGNDFBCS+YARg=
-github.com/gorilla/handlers v1.4.2/go.mod h1:Qkdc/uu4tH4g6mTK6auzZ766c4CA0Ng8+o/OAirnOIQ=
 github.com/gorilla/mux v1.7.3 h1:gnP5JzjVOuiZD07fKKToCAOjS0yOpj/qPETTXCCS6hw=
 github.com/gorilla/mux v1.7.3/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
 github.com/mattn/go-sqlite3 v1.11.0 h1:LDdKkqtYlom37fkvqs8rMPFKAMe8+SgjbwZ6ex1/A/Q=

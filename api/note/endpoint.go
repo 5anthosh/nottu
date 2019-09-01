@@ -10,7 +10,7 @@ import (
 	"github.com/5anthosh/mint"
 )
 
-const NoteIDURLVar = "noteID"
+const noteIDURLVar = "noteID"
 
 func create(c *mint.Context, code *int, response *api.ResponseBuilder) {
 	requestBody, err := parseCreateRequestBody(c.Request.Body)
@@ -20,7 +20,7 @@ func create(c *mint.Context, code *int, response *api.ResponseBuilder) {
 	} else {
 		var id, result string
 		id, result, *code, err = note.Create(c.DB, requestBody.Title, requestBody.Content)
-		c.AppendError(err)
+		c.Error(err)
 		if *code == status.CreatedSuccess {
 			response.Data().ID(id).Message(result)
 		} else {
@@ -33,7 +33,7 @@ func get(c *mint.Context, code *int, response *api.ResponseBuilder) {
 	var notes []note.Note
 	var err error
 	notes, result, *code, err = note.Get(c.DB)
-	c.AppendError(err)
+	c.Error(err)
 	if *code != status.OK {
 		response.Error().Message(result)
 	} else {
@@ -46,7 +46,7 @@ func byID(c *mint.Context, id string, code *int, response *api.ResponseBuilder) 
 	var noteObj note.Note
 	var err error
 	noteObj, result, *code, err = note.ByID(c.DB, id)
-	c.AppendError(err)
+	c.Error(err)
 	if *code != status.OK {
 		response.Error().Message(result)
 	} else {
@@ -58,7 +58,7 @@ func delete(c *mint.Context, id string, code *int, response *api.ResponseBuilder
 	var err error
 	var result string
 	result, *code, err = note.Delete(c.DB, id)
-	c.AppendError(err)
+	c.Error(err)
 	if *code != status.DeletedSuccess {
 		response.Error().Message(result)
 	}
@@ -72,7 +72,7 @@ func update(c *mint.Context, id string, code *int, response *api.ResponseBuilder
 	} else {
 		var result string
 		result, *code, err = note.Update(c.DB, id, requestBody.Title, requestBody.Content)
-		c.AppendError(err)
+		c.Error(err)
 		if *code != status.OK {
 			response.Error().Message(result)
 		} else {
