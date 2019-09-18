@@ -3,7 +3,7 @@ module github.com/5anthosh/nottu
 go 1.12
 
 require (
-	github.com/5anthosh/mint v0.0.0-20190830171709-76db5fa2217f
+	github.com/5anthosh/mint v0.0.0-20190918135348-22ddfba6b819
 	github.com/5anthosh/oops v1.0.0
 	github.com/gorilla/mux v1.7.3
 	github.com/mattn/go-sqlite3 v1.11.0

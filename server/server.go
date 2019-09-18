@@ -1,6 +1,7 @@
 package server
 
 import (
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
@@ -8,7 +9,7 @@ import (
 	"path/filepath"
 
 	"github.com/5anthosh/nottu/api/note"
-	"github.com/5anthosh/nottu/db"
+	"github.com/5anthosh/nottu/core/database"
 
 	"github.com/5anthosh/mint"
 	"github.com/gorilla/mux"
@@ -17,10 +18,12 @@ import (
 const defaultPort = "1313"
 const defaultDBFileLocation = ".config/nottu/"
 const databaseName = "/.nottu.sqlite3"
+const testDataBaseName = "/.nottu_test.sqlite3"
 
 //Run starts server
 func Run() {
-	router := Build()
+	router, DB := Build()
+	defer DB.Close()
 	port := defaultPort
 	serverAdd := ":" + port
 	fmt.Println("🚀  Starting server....")
@@ -37,7 +40,7 @@ func Run() {
 }
 
 //Build builds router with views config
-func Build() *mux.Router {
+func Build() (*mux.Router, *sql.DB) {
 	nottu := mint.New()
 	nottu.AddGroup(note.New())
 	usr, err := user.Current()
@@ -45,16 +48,16 @@ func Build() *mux.Router {
 		log.Fatal(err)
 	}
 	fileLocation := filepath.Join(usr.HomeDir, defaultDBFileLocation)
-	nottu.RegisterDB(
-		db.Database{
-			FileParentPath:      fileLocation,
-			DevDatabaseFilePath: fileLocation + databaseName,
-		},
-	)
-	return nottu.Build()
+	database := database.Database{
+		FileParentPath:      fileLocation,
+		DevDatabaseFilePath: fileLocation + databaseName,
+	}
+	DB := database.Connection()
+	nottu.Set("DB", DB)
+	return nottu.Build(), DB
 }
 
-func TestBuild() *mux.Router {
+func TestBuild() (*mux.Router, *sql.DB) {
 	nottu := mint.Simple()
 	nottu.AddGroup(note.New())
 	usr, err := user.Current()
@@ -66,11 +69,11 @@ func TestBuild() *mux.Router {
 		log.Fatal(err)
 	}
 	fileLocation := filepath.Join(usr.HomeDir, defaultDBFileLocation)
-	nottu.RegisterDB(
-		db.Database{
-			FileParentPath:      fileLocation,
-			DevDatabaseFilePath: fileLocation + "/.nottu_test.sqlite3",
-		},
-	)
-	return nottu.Build()
+	database := database.Database{
+		FileParentPath:      fileLocation,
+		DevDatabaseFilePath: fileLocation + testDataBaseName,
+	}
+	DB := database.Connection()
+	nottu.Set("DB", DB)
+	return nottu.Build(), DB
 }

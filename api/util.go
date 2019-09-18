@@ -3,55 +3,89 @@ package api
 import (
 	"errors"
 
-	"github.com/5anthosh/nottu/db/note"
+	"github.com/5anthosh/nottu/core/note"
 )
 
+//ResponseBuilder contructs response message
 type ResponseBuilder struct {
+	HTTPCode   int            `json:"code,omitempty"`
 	JSONData   *Response      `json:"data,omitempty"`
 	JSONErrors *ErrorMessages `json:"errors,omitempty"`
 }
 
 //Data sets data of json
-func (r *ResponseBuilder) Data() *Response {
-	if r.JSONData == nil {
-		r.JSONData = new(Response)
+func (rb *ResponseBuilder) Data() *Response {
+	if rb == nil {
+		return nil
 	}
-	return r.JSONData
+	if rb.JSONData == nil {
+		rb.JSONData = new(Response)
+	}
+	return rb.JSONData
 }
-func (r *ResponseBuilder) Error() *ErrorMessages {
-	if r.JSONErrors == nil {
-		r.JSONErrors = new(ErrorMessages)
+
+//Code #
+func (rb *ResponseBuilder) Code(value int) *ResponseBuilder {
+	if rb == nil {
+		return nil
 	}
-	return r.JSONErrors
+	rb.HTTPCode = value
+	return rb
+}
+
+//Error sets error response
+func (rb *ResponseBuilder) Error() *ErrorMessages {
+	if rb == nil {
+		return nil
+	}
+	if rb.JSONErrors == nil {
+		rb.JSONErrors = new(ErrorMessages)
+	}
+	return rb.JSONErrors
 }
 
 //Response containes requested info if request is successfull
 type Response struct {
 	JSONID      string      `json:"id,omitempty"`
 	JSONMessage string      `json:"message,omitempty"`
-	JSONNote    note.Note   `json:"note,omitempty"`
+	JSONNote    *note.Note  `json:"note,omitempty"`
 	JSONNotes   []note.Note `json:"notes,omitempty"`
 }
 
 //ID set
-func (d *Response) ID(id string) *Response {
-	d.JSONID = id
-	return d
+func (r *Response) ID(id string) *Response {
+	if r == nil {
+		return nil
+	}
+	r.JSONID = id
+	return r
 }
 
 //Message #
-func (d *Response) Message(message string) *Response {
-	d.JSONMessage = message
-	return d
+func (r *Response) Message(message string) *Response {
+	if r == nil {
+		return nil
+	}
+	r.JSONMessage = message
+	return r
 }
 
-func (d *Response) Note(note note.Note) *Response {
-	d.JSONNote = note
-	return d
+//Note #
+func (r *Response) Note(note note.Note) *Response {
+	if r == nil {
+		return nil
+	}
+	r.JSONNote = &note
+	return r
 }
-func (d *Response) Notes(notes []note.Note) *Response {
-	d.JSONNotes = notes
-	return d
+
+//Notes #
+func (r *Response) Notes(notes []note.Note) *Response {
+	if r == nil {
+		return nil
+	}
+	r.JSONNotes = notes
+	return r
 }
 
 //ErrorMessages contains error
@@ -61,6 +95,9 @@ type ErrorMessages struct {
 
 //Message #
 func (e *ErrorMessages) Message(message string) *ErrorMessages {
+	if e == nil {
+		return nil
+	}
 	e.JSONErrorMessage = message
 	return e
 }

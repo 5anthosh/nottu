@@ -1,4 +1,4 @@
-package db
+package database
 
 const noteQuery = `
 CREATE TABLE Note

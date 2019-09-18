@@ -10,14 +10,16 @@ import (
 func New() *mint.HandlersGroup {
 	return mint.NewGroup("/notes").
 		Handler(
-			new(mint.HandlersContext).
+			mint.HandlerBuilder().
 				Handle(EndPoint).
 				Methods(http.MethodGet, http.MethodPost).
 				Compressed(true),
-		).Handler(
-		new(mint.HandlersContext).
+		).
+		Handler(
+		mint.HandlerBuilder().
 			Path("/"+mint.URLVar(noteIDURLVar)).
 			Handle(ByIDEndPoint).
-			Methods(http.MethodGet, http.MethodDelete, http.MethodPut).Compressed(true),
+			Methods(http.MethodGet, http.MethodDelete, http.MethodPut).
+			Compressed(true),
 	)
 }
