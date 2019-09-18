@@ -93,7 +93,8 @@ Used to get the all notes
         "id": "bkpg9ac5p58bs8eoh9ig",
         "title": "note1",
         "content": "content 1",
-        "created": "2019-07-20T17:40:17.81487838+05:30"
+        "created": "2019-07-20T17:40:17.81487838+05:30",
+        "updated": "2019-07-20T17:40:17.81487838+05:30",
       }
     ]
   }
@@ -130,6 +131,7 @@ Used to get the a note by its ID
         "title": "note1",
         "content": "content 1",
         "created": "2019-07-20T17:40:17.81487838+05:30"
+        "updated": "2019-07-20T17:40:17.81487838+05:30",
       }
     ]
   }
