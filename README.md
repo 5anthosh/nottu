@@ -56,6 +56,7 @@ Used to create a new note
 
 ```json
 {
+  "code": 201,
   "data": {
     "id": "bla6fss5p58afdc8tt7g",
     "message": "Note is created successfully"
@@ -85,6 +86,7 @@ Used to get the all notes
 
 ```json
 {
+  "code": 200,
   "data": {
     "notes": [
       {
@@ -120,6 +122,7 @@ Used to get the a note by its ID
 
 ```json
 {
+  "code": 200,
   "data": {
     "notes": [
       {
