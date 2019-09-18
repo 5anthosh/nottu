@@ -16,10 +16,10 @@ func Create(DB *sql.DB, title string, content string) (string, string, int, erro
 	}
 	id := database.GenerateUniqueID()
 	created := time.Now()
-	query := "INSERT INTO NOTE(NOTE_ID, TITLE, CONTENT, CREATED) VALUES(?, ?, ?, ?)"
+	query := "INSERT INTO NOTE(NOTE_ID, TITLE, CONTENT, CREATED, UPDATED) VALUES(?, ?, ?, ?, ?)"
 	tx, err := DB.Begin()
 	if err == nil {
-		_, err = tx.Exec(query, id, title, content, created)
+		_, err = tx.Exec(query, id, title, content, created, created)
 		if err == nil {
 			tx.Commit()
 			return id, creationSuccess, status.CreatedSuccess, err
@@ -42,7 +42,7 @@ func Get(DB *sql.DB) ([]Note, string, int, error) {
 	var notes = make([]Note, 0, 16)
 	for rows.Next() {
 		note := new(Note)
-		err := rows.Scan(&note.ID, &note.Title, &note.Content, &note.Created)
+		err := rows.Scan(&note.ID, &note.Title, &note.Content, &note.Created, &note.Updated)
 		if err != nil {
 			return nil, retrieveErr, status.ServerError, oops.T(err)
 		}
@@ -56,7 +56,7 @@ func ByID(DB *sql.DB, id string) (Note, string, int, error) {
 	var note Note
 	query := "SELECT * FROM Note WHERE NOTE_ID = ?"
 	note = Note{}
-	err := DB.QueryRow(query, id).Scan(&note.ID, &note.Title, &note.Content, &note.Created)
+	err := DB.QueryRow(query, id).Scan(&note.ID, &note.Title, &note.Content, &note.Created, &note.Updated)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return note, notFound, status.NotFound, nil
@@ -87,21 +87,22 @@ func Update(DB *sql.DB, id string, title *string, content *string) (string, int,
 		return result, code, err
 	}
 	var query string
+	now := time.Now()
 	if title != nil && content != nil {
-		query = "UPDATE Note SET TITLE = ?, CONTENT = ? WHERE NOTE_ID = ?"
-		_, err = DB.Exec(query, *title, *content, id)
+		query = "UPDATE Note SET TITLE = ?, CONTENT = ?, UPDATED = ? WHERE NOTE_ID = ?"
+		_, err = DB.Exec(query, *title, *content, now, id)
 		if err != nil {
 			return updationErr, status.ServerError, oops.T(err)
 		}
 	} else if title != nil {
-		query = "UPDATE Note SET TITLE = ? WHERE NOTE_ID = ?"
-		_, err = DB.Exec(query, *title, id)
+		query = "UPDATE Note SET TITLE = ?, UPDATED = ? WHERE NOTE_ID = ?"
+		_, err = DB.Exec(query, *title, now, id)
 		if err != nil {
 			return updationErr, status.ServerError, oops.T(err)
 		}
 	} else if content != nil {
-		query = "UPDATE Note SET CONTENT=? WHERE NOTE_ID = ?"
-		_, err = DB.Exec(query, *content, id)
+		query = "UPDATE Note SET CONTENT = ?, UPDATED = ? WHERE NOTE_ID = ?"
+		_, err = DB.Exec(query, *content, now, id)
 		if err != nil {
 			return updationErr, status.ServerError, oops.T(err)
 		}

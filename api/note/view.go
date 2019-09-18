@@ -16,10 +16,10 @@ func New() *mint.HandlersGroup {
 				Compressed(true),
 		).
 		Handler(
-		mint.HandlerBuilder().
-			Path("/"+mint.URLVar(noteIDURLVar)).
-			Handle(ByIDEndPoint).
-			Methods(http.MethodGet, http.MethodDelete, http.MethodPut).
-			Compressed(true),
-	)
+			mint.HandlerBuilder().
+				Path("/"+mint.URLVar(noteIDURLVar)).
+				Handle(ByIDEndPoint).
+				Methods(http.MethodGet, http.MethodDelete, http.MethodPut).
+				Compressed(true),
+		)
 }
