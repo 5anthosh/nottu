@@ -79,14 +79,15 @@ func update(r *http.Request, DB *sql.DB, id string, response *api.ResponseBuilde
 //EndPoint #
 func EndPoint(c *mint.Context) {
 	response := new(api.ResponseBuilder)
-	DB := c.HandlerContext.Mint.Get("DB").(*sql.DB)
+	value, _ := c.MintParam("DB")
+	DB := value.(*sql.DB)
 	var err error
-	switch c.Request.Method {
+	switch c.Req.Method {
 	case http.MethodGet:
 		err = get(DB, response)
 		break
 	case http.MethodPost:
-		err = create(c.Request, DB, response)
+		err = create(c.Req, DB, response)
 		break
 	default:
 		c.Status(status.NotFound)
@@ -99,15 +100,16 @@ func EndPoint(c *mint.Context) {
 //ByIDEndPoint #
 func ByIDEndPoint(c *mint.Context) {
 	response := new(api.ResponseBuilder)
-	noteID := c.URLParams[noteIDURLVar]
-	DB := c.HandlerContext.Mint.Get("DB").(*sql.DB)
+	noteID, _ := c.Param(noteIDURLVar)
+	value, _ := c.MintParam("DB")
+	DB := value.(*sql.DB)
 	var err error
-	switch c.Request.Method {
+	switch c.Req.Method {
 	case http.MethodGet:
 		err = byID(DB, noteID, response)
 		break
 	case http.MethodPut:
-		err = update(c.Request, DB, noteID, response)
+		err = update(c.Req, DB, noteID, response)
 		break
 	case http.MethodDelete:
 		err = delete(DB, noteID, response)

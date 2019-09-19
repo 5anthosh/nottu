@@ -1,5 +1,5 @@
-github.com/5anthosh/mint v0.0.0-20190918135348-22ddfba6b819 h1:rWxPW6C3lOYa3YBnnJqlLvklmjQCF19zMO1S2u1EH/E=
-github.com/5anthosh/mint v0.0.0-20190918135348-22ddfba6b819/go.mod h1:ZC2nKTU8ovfyeErlYf3Oc2P1QX2pKkddprIeDgo/5hg=
+github.com/5anthosh/mint v0.0.0-20190919153240-7e28748ca105 h1:Stsz6oQ4g6VZHwU2oOW1lErW4qViL7BZ+xmxRslhTCA=
+github.com/5anthosh/mint v0.0.0-20190919153240-7e28748ca105/go.mod h1:ZC2nKTU8ovfyeErlYf3Oc2P1QX2pKkddprIeDgo/5hg=
 github.com/5anthosh/oops v1.0.0 h1:CH7rwi7rIvV10I0dTOX6P8ZaWgwR63Vb1TMpYwFbYmw=
 github.com/5anthosh/oops v1.0.0/go.mod h1:u32jgP3xFDjK+CHUgo/0DCMTAReGDlZnSSHFSJkME2g=
 github.com/gorilla/handlers v1.4.1 h1:BHvcRGJe/TrL+OqFxoKQGddTgeibiOjaBssV5a/N9sw=
